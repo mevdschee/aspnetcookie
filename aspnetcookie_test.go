@@ -52,6 +52,26 @@ func Test7BitIntNull(t *testing.T) {
 	}
 }
 
+func TestStringFromBytes(t *testing.T) {
+	const data = "\x02\x24\x00\xAC\x20"
+	const ref = "$€"
+	b := bytes.NewBufferString(data)
+	str, _ := stringFromBytes(b)
+	if strings.Compare(str, ref) != 0 {
+		t.Fatalf("Decoding '% x' as UTF16LE string with 7bit int length. Expected '%s', got '%s'", data, ref, str)
+	}
+}
+
+func TestStringFromBytesSurrogatePairs(t *testing.T) {
+	const data = "\x04\x01\xD8\x37\xDC\x52\xD8\x62\xDF"
+	const ref = "𐐷𤭢"
+	b := bytes.NewBufferString(data)
+	str, _ := stringFromBytes(b)
+	if strings.Compare(str, ref) != 0 {
+		t.Fatalf("Decoding '% x' as UTF16LE string with 7bit int length. Expected '% x', got '% x'", data, ref, str)
+	}
+}
+
 func TestDecodeCookie(t *testing.T) {
 	validationKey, _ := hex.DecodeString("2E502E08392C704E2234759EDA7A5940A8CE1C42C7964B8142778764CF0006C23418F4E174BFFF4E742C80CF0B47DCC6DA5BB5420B6F72A9670AEF27C18D5769")
 	decryptionKey, _ := hex.DecodeString("5226859B3CB262982B574093B29DAD9083030C93604C820F009D5192BDEC31F2")
