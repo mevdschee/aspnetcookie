@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mevdschee/aspnetcookie.svg)](https://travis-ci.org/mevdschee/aspnetcookie)
+
 # aspnetcookie
 
 A Go package that can decode and validate an ASP.net FormsAuthentication encrypted and signed cookie.
