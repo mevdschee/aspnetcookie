@@ -5,7 +5,7 @@ go:
  - 1.4.2
  - 1.5.1
  - 1.6.2
- - release
+ - 1.7.3
 
 script:
 - go test -v ./...

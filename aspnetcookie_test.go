@@ -3,7 +3,6 @@ package aspnetcookie
 import (
 	"bytes"
 	"encoding/hex"
-	"strings"
 	"testing"
 )
 
@@ -25,7 +24,7 @@ func TestEncode7BitInt(t *testing.T) {
 	var b bytes.Buffer
 	intToBytes(392, &b)
 	written := string(b.Bytes())
-	if strings.Compare(written, data) != 0 {
+	if written != data {
 		t.Fatalf("Encoding '392' as 7bit int. Expected '88 03', got '% x'", written)
 	}
 }
@@ -47,7 +46,7 @@ func Test7BitIntNull(t *testing.T) {
 	var b bytes.Buffer
 	intToBytes(0, &b)
 	written := string(b.Bytes())
-	if strings.Compare(written, data) != 0 {
+	if written != data {
 		t.Fatalf("Encoding '0' as 7bit int. Expected '00', got '% x'", written)
 	}
 }
@@ -57,7 +56,7 @@ func TestStringFromBytes(t *testing.T) {
 	const ref = "$€"
 	b := bytes.NewBufferString(data)
 	str, _ := stringFromBytes(b)
-	if strings.Compare(str, ref) != 0 {
+	if str != ref {
 		t.Fatalf("Decoding '% x' as UTF16LE string with 7bit int length. Expected '%s', got '%s'", data, ref, str)
 	}
 }
@@ -67,7 +66,7 @@ func TestStringFromBytesSurrogatePairs(t *testing.T) {
 	const ref = "𐐷𤭢"
 	b := bytes.NewBufferString(data)
 	str, _ := stringFromBytes(b)
-	if strings.Compare(str, ref) != 0 {
+	if str != ref {
 		t.Fatalf("Decoding '% x' as UTF16LE string with 7bit int length. Expected '% x', got '% x'", data, ref, str)
 	}
 }
@@ -78,7 +77,7 @@ func TestStringToBytes(t *testing.T) {
 	var b bytes.Buffer
 	stringToBytes(data, &b)
 	str := string(b.Bytes())
-	if strings.Compare(str, ref) != 0 {
+	if str != ref {
 		t.Fatalf("Encoding '%s' as UTF16LE string with 7bit int length. Expected '% x', got '% x'", data, ref, str)
 	}
 }
@@ -89,7 +88,7 @@ func TestStringToBytesSurrogatePairs(t *testing.T) {
 	var b bytes.Buffer
 	stringToBytes(data, &b)
 	str := string(b.Bytes())
-	if strings.Compare(str, ref) != 0 {
+	if str != ref {
 		t.Fatalf("Encoding '% x' as UTF16LE string with 7bit int length. Expected '% x', got '% x'", data, ref, str)
 	}
 }
@@ -106,7 +105,7 @@ func TestDecodeCookie(t *testing.T) {
 	if ticket == nil {
 		t.Fatal("Error while decoding, got nil ticket")
 	}
-	if strings.Compare(ticket.name, "maurits.vanderschee") != 0 {
+	if ticket.name != "maurits.vanderschee" {
 		t.Fatalf("Expected 'ticket.username' to be 'maurits.vanderschee', got '%s'", ticket.name)
 	}
 }
@@ -117,7 +116,7 @@ func TestEncodeDecodeCookie(t *testing.T) {
 	a := New("SHA1", validationKey, "AES", decryptionKey)
 	cookie, _ := a.EncodeNew("maurits.vanderschee", 3600*24*365, true, "\"nothing\"", "/")
 	ticket, _ := a.Decode(cookie)
-	if strings.Compare(ticket.name, "maurits.vanderschee") != 0 {
+	if ticket.name != "maurits.vanderschee" {
 		t.Fatalf("Expected 'ticket.username' to be 'maurits.vanderschee', got '%s'", ticket.name)
 	}
 }
