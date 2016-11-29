@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/mevdschee/aspnetcookie.svg)](https://travis-ci.org/mevdschee/aspnetcookie)
+[![Coverage Status](https://coveralls.io/repos/github/mevdschee/aspnetcookie/badge.svg?branch=master)](https://coveralls.io/github/mevdschee/aspnetcookie?branch=master)
 
 # aspnetcookie
 
